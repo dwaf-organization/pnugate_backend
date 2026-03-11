@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>부산대학교 새정문 건립 프로젝트</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pnu-blue: #003876;
+            --pnu-light-blue: #0066cc;
+            --gold: #d4af37;
+            --cream: #faf8f3;
+            --dark-gray: #2c3e50;
+            --success-green: #27ae60;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Serif KR', serif;
+            background: linear-gradient(135deg, var(--cream) 0%, #e8e4db 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-gray);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Background decorative elements */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(0, 56, 118, 0.03) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.04) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 25s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(30px, -30px) rotate(5deg); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 800px;
+            padding: 60px 40px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.08),
+                0 0 0 1px rgba(0, 56, 118, 0.05);
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Decorative top bar */
+        .decorative-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, 
+                var(--pnu-blue) 0%, 
+                var(--pnu-light-blue) 50%, 
+                var(--gold) 100%);
+            border-radius: 20px 20px 0 0;
+        }
+
+        /* Logo/Icon */
+        .status-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, var(--pnu-blue) 0%, var(--pnu-light-blue) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .status-icon::before {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 2px solid var(--pnu-light-blue);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: ripple 2s ease-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(1.3);
+                opacity: 0;
+            }
+        }
+
+        .status-icon svg {
+            width: 50px;
+            height: 50px;
+            fill: white;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', 'Noto Serif KR', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--pnu-blue);
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+            line-height: 1.3;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--dark-gray);
+            margin-bottom: 40px;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, var(--success-green) 0%, #229954 100%);
+            color: white;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3);
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+
+        .info-card {
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(0, 56, 118, 0.03) 0%, rgba(0, 102, 204, 0.03) 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 56, 118, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 56, 118, 0.1);
+            border-color: var(--pnu-light-blue);
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: var(--pnu-blue);
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            color: var(--dark-gray);
+            font-weight: 400;
+        }
+
+        footer {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(0, 56, 118, 0.1);
+            animation: fadeIn 1s ease-out 0.7s both;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            opacity: 0.6;
+            line-height: 1.6;
+        }
+
+        .accent-line {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--pnu-blue), var(--gold));
+            margin: 20px auto;
+            border-radius: 3px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 25px;
+                margin: 20px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="decorative-bar"></div>
+        
+        <div class="status-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm0 18c-3.87-.96-7-5.54-7-10V8.3l7-3.11 7 3.11V10c0 4.46-3.13 9.04-7 10zm-1-8h2v6h-2v-6zm0-4h2v2h-2V8z"/>
+            </svg>
+        </div>
+
+        <h1>부산대학교<br>새정문 건립 프로젝트</h1>
+        
+        <div class="accent-line"></div>
+        
+        <p class="subtitle">Pusan National University Gateway Project</p>
+
+        <div class="status-badge">
+            <span class="status-dot"></span>
+            서버 정상 실행 중
+        </div>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="info-label">프로젝트</div>
+                <div class="info-value">새정문 건립</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">상태</div>
+                <div class="info-value">Running</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">기관</div>
+                <div class="info-value">부산대학교</div>
+            </div>
+        </div>
+
+        <footer>
+            <p>이 페이지는 서버가 정상적으로 실행되었음을 확인하는 화면입니다.<br>
+            문의사항이 있으시면 프로젝트 관리자에게 연락해주세요.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Add current timestamp
+        const timestampCard = document.createElement('div');
+        timestampCard.className = 'info-card';
+        timestampCard.innerHTML = `
+            <div class="info-label">시작 시간</div>
+            <div class="info-value">${new Date().toLocaleString('ko-KR')}</div>
+        `;
+        document.querySelector('.info-grid').appendChild(timestampCard);
+    </script>
+</body>
+</html>
