@@ -3,6 +3,7 @@ package kr.ac.pnu.maingate.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -44,8 +45,11 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/notice/**").permitAll()
                         .requestMatchers("/api/v1/resources/**").permitAll()
                         .requestMatchers("/api/v1/promo/**").permitAll()
-                        .requestMatchers("/api/v1/board").permitAll()  // 목록 조회
-                        .requestMatchers("/api/v1/board/*").permitAll()  // 상세 조회
+                        
+                        // 자유게시판: 조회는 누구나, 생성/수정/삭제는 인증 필요
+                        .requestMatchers(HttpMethod.GET, "/api/v1/board/list").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/board/detail/**").permitAll()
+                        .requestMatchers("/api/v1/board/**").authenticated()
                         
                         // 나머지는 인증 필요
                         .anyRequest().authenticated()
